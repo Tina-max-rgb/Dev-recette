@@ -1,0 +1,49 @@
+{% extends 'base.html.twig'%}
+{% block title %}TinRecype - Mes ingredients
+{% endblock %}
+
+{% block body %}
+
+ <div class="container mt-4">
+       <h1>Mes ingredients</h1>
+       <div class="count mt-4 ">
+       Il y a dans la liste.
+            {% if ingredients is defined and ingredients.getTotalItemCount is defined %}
+                {% if ingredients.getTotalItemCount is same as ([]) %}
+                    0
+                {% else %}
+                    {{ ingredients.getTotalItemCount }}
+                {% endif %}
+            {% else %}
+                0 Il nya pas d'ingredients
+            {% endif %}
+        
+       </div>
+      <table class="table table-hover">
+         </div>
+  <thead>
+         <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Date de création</th>
+            <th scope="col">prix</th>
+        </tr>
+  </thead>
+  <tbody>
+       {% for ingredient in ingredients %}
+    <tr class="table-active"> 
+        <th scope="row">{{ingredient.id}} </th>
+        <td>{{ingredient.name}}</td>
+        <td>{{ingredient.createdAt|date('d-m-Y')}}</td>
+        <td>{{ingredient.prix}}</td>
+
+    </tr>
+        {% endfor %}
+  </tbody>
+</table>
+       <div class="navigation d-flex justify-content-center">
+    {{ knp_pagination_render(ingredients) }}
+
+</div>
+
+{% endblock %}

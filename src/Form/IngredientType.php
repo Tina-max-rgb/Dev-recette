@@ -43,6 +43,7 @@ class IngredientType extends AbstractType
         ->add('prix', MoneyType::class, [
             'attr' => [
                 'class' => 'form-control',
+                
             ],
             'label' => 'Prix', // Correction de l'intitulé du champ
             'label_attr' => [

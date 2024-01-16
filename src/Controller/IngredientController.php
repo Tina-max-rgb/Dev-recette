@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Repository\IngredientRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +11,7 @@ use Knp\Component\Pager\Pagination\SlidingPaginationInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Ingredient;
 use App\Form\IngredientType;
-use Doctrine\Persistence\ObjectManager;
+//use Doctrine\Persistence\ObjectManager;
 
 class IngredientController extends AbstractController
 {
@@ -44,17 +43,29 @@ class IngredientController extends AbstractController
         $ingredient = new Ingredient();
         $form = $this->createForm(IngredientType::class, $ingredient);
         $form->handleRequest($request);
-
+        //dd($form);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($ingredient);
-            $manager->flush();
-
-            // Corrected the line to use 'redirectToRoute' method with 'return'
-            return $this->redirectToRoute('app_ingredient');
+            $ingredientExisting = $manager->getRepository(Ingredient::class)->findOneBy(['name' => $ingredient->getName()]);
+    
+            if ($ingredientExisting) {
+                // Handle the case where the ingredient with the same name already exists
+                $this->addFlash('danger',
+                 'Ingredient with this name already exists');
+            } else {
+                // The ingredient with the same name doesn't exist, proceed to persist and flush
+                ('ingredient ajouté');
+                $manager->persist($ingredient);
+                $manager->flush();
+                $this->addFlash('success', 'votre ingrédient à été crée avec succés !');
+                // Redirect to the index page
+                return $this->redirectToRoute('app_ingredient');
+            }
         }
 
         return $this->render('pages/ingredient/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-}
+    
+        }
+    

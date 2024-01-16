@@ -30,7 +30,7 @@ class IngredientType extends AbstractType
                 'minlength' => 2,
                 'maxlength' => 50,
             ],
-            'label' => 'Nom',
+            'label' => 'name',
             'label_attr' => [
                 'class' => 'form-label mt-4',
             ],
@@ -45,7 +45,7 @@ class IngredientType extends AbstractType
                 'class' => 'form-control',
                 
             ],
-            'label' => 'Prix', // Correction de l'intitulé du champ
+            'label' => 'prix', // Correction de l'intitulé du champ
             'label_attr' => [
                 'class' => 'form-label mt-4',
             ],

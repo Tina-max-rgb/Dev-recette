@@ -60,12 +60,23 @@ class IngredientController extends AbstractController
                 // Redirect to the index page
                 return $this->redirectToRoute('app_ingredient');
             }
-        }
+        
 
         return $this->render('pages/ingredient/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-    
+
         }
-    
+
+    #[Route('/ingredient/edit/{id}', name: 'ingredient.edit', methods: ['GET', 'POST'])]
+    public function edit(IngredientRepository $repository, int $id): Response
+    {
+        $ingredient = $repository->findOneBy(['id'=>$id]);
+        $form = $this->createForm(IngredientType::class, $ingredient);
+       return $this->render('pages/ingredient/edit.html.twig',
+        ['form' => $form->createView(),
+    ]);
+
+        }
+    }

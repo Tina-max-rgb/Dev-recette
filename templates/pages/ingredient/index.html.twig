@@ -5,7 +5,9 @@
 {% block body %}
 
  <div class="container mt-4">
-       <h1>Mes ingredients</h1>
+       <h1>Mes ingrédients</h1>
+              <a href="{{ path('ingredient.new')}}" class="btn btn-primary"> Créer un ingredient</a> 
+
        <div class="count mt-4 ">
        Il y a dans la liste.
             {% if ingredients is defined and ingredients.getTotalItemCount is defined %}

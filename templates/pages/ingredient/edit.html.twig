@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h3>Ajouter un ingrédient</h3>
+        <h3>modifier un ingrédient</h3>
                       {% for message in app.flashes ('success') %}
      <div class='alert-success'>
             {{message}}
@@ -39,4 +39,3 @@
     {# Ce bloc gère les erreurs de soumission du formulaire #}
     {{ form_errors(form) }}
 {% endblock %}
-

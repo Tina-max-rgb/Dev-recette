@@ -13,7 +13,7 @@
         <div class="container mt-4">
             <h1>Mes ingrédients</h1>
             <a href="{{ path('ingredient.new')}}" class="btn btn-primary"> Créer un ingredient</a>
-
+                                            
             <div class="count mt-4">
                 Il y a dans la liste.
                 {% if ingredients is defined and ingredients.getTotalItemCount is defined %}
@@ -72,10 +72,10 @@
             if (confirmation) {
                 window.location.href = event.target.href;
             }
-       } else {
-             'L/utilisateur a annulé, ne faites rien',
+      
         }
     
+
         function confirmModification(event) {
             event.preventDefault();
             var confirmation = window.confirm("Êtes-vous sûr de vouloir modifier cet élément ?");
@@ -83,8 +83,7 @@
             if (confirmation) {
                 window.location.href = event.target.href;
             }
-            } else {
-             'L/utilisateur a annulé, ne faites rien',
+            
         }
     </script>
 {% endblock %}

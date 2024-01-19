@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
  
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
 #[UniqueEntity('name')]
+
+
 class Ingredient
 {
     #[ORM\Id]

@@ -1,53 +1,90 @@
 {% extends 'base.html.twig'%}
-{% block title %}TinRecype - Mes ingredients
-{% endblock %}
+{% block title %}TinRecype - Mes ingredients{% endblock %}
 
 {% block body %}
-
- <div class="container mt-4">
-       <h1>Mes ingrédients</h1>
-              <a href="{{ path('ingredient.new')}}" class="btn btn-primary"> Créer un ingredient</a> 
-
-       <div class="count mt-4 ">
-       Il y a dans la liste.
-            {% if ingredients is defined and ingredients.getTotalItemCount is defined %}
-                {% if ingredients.getTotalItemCount is same as ([]) %}
-                    0
-                {% else %}
-                    {{ ingredients.getTotalItemCount }}
-                {% endif %}
-            {% else %}
-                0 Il nya pas d'ingredients
-            {% endif %}
-        
-       </div>
-      <table class="table table-active">
-         </div>
-  <thead>
-         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Date de création</th>
-            <th scope="col">prix</th>
-
-        </tr>
-
-  </thead>
-  <tbody>
-       {% for ingredient in ingredients %}
-    <tr class="table-active"> 
-        <th scope="row">{{ingredient.id}} </th>
-        <td>{{ingredient.name}}</td>
-        <td>{{ingredient.createdAt|date('d-m-Y')}}</td>
-        <td>{{ingredient.prix}}</td>
-    </tr>
+    <div class="container mt-4">
+        <h3>Ajouter un ingrédient</h3>
+        {% for message in app.flashes ('success') %}
+            <div class='alert alert-success'>
+                {{ message }}
+            </div>
         {% endfor %}
-  </tbody>
-</table>
-       <div class="navigation d-flex justify-content-center">
-    {{ knp_pagination_render(ingredients) }}
 
-</div>
+        <div class="container mt-4">
+            <h1>Mes ingrédients</h1>
+            <a href="{{ path('ingredient.new')}}" class="btn btn-primary"> Créer un ingredient</a>
 
+            <div class="count mt-4">
+                Il y a dans la liste.
+                {% if ingredients is defined and ingredients.getTotalItemCount is defined %}
+                    {% if ingredients.getTotalItemCount is same as ([]) %}
+                        0
+                    {% else %}
+                        {{ ingredients.getTotalItemCount }}
+                    {% endif %}
+                {% else %}
+                    0 Il n'y a pas d'ingrédients
+                {% endif %}
+            </div>
+
+            <table class="table table-active">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Date de création</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Modifier</th>
+                        <th scope="col">Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ingredient in ingredients %}
+                        <tr class="table-active">
+                            <th scope="row">{{ ingredient.id }} </th>
+                            <td>{{ ingredient.name }}</td>
+                            <td>{{ ingredient.createdAt|date('d-m-Y') }}</td>
+                            <td>{{ ingredient.prix }}</td>
+                            <td>
+                                <a href="{{ path('ingredient.edit', { id: ingredient.id }) }}" class="btn btn-info"
+                                    onclick="confirmModification(event)">Modifier</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('ingredient.delete', { id: ingredient.id }) }}" class="btn btn-warning"
+                                    onclick="confirmDeletion(event)">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation d-flex justify-content-center">
+                {{ knp_pagination_render(ingredients) }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmDeletion(event) {
+            event.preventDefault();
+            var confirmation = window.confirm("Êtes-vous sûr de vouloir supprimer cet élément ?");
+
+            if (confirmation) {
+                window.location.href = event.target.href;
+            }
+       } else {
+             'L/utilisateur a annulé, ne faites rien',
+        }
+    
+        function confirmModification(event) {
+            event.preventDefault();
+            var confirmation = window.confirm("Êtes-vous sûr de vouloir modifier cet élément ?");
+
+            if (confirmation) {
+                window.location.href = event.target.href;
+            }
+            } else {
+             'L/utilisateur a annulé, ne faites rien',
+        }
+    </script>
 {% endblock %}
- 

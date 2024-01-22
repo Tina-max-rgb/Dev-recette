@@ -37,7 +37,6 @@ class IngredientController extends AbstractController
         $ingredient = new Ingredient();
         $form = $this->createForm(IngredientType::class, $ingredient);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredientExisting = $manager->getRepository(Ingredient::class)->findOneBy(['name' => $ingredient->getName()]);
 
@@ -59,7 +58,6 @@ class IngredientController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     #[Route('/ingredient/edit/{id}', name: 'ingredient.edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EntityManagerInterface $manager, Ingredient $ingredient): Response
     {
@@ -87,8 +85,7 @@ class IngredientController extends AbstractController
             $this->addFlash(
                 'success',
                 'Votre ingrédient n/a pas été trouvé',
-            );
-            
+            );   
             return $this->redirectToRoute('app_ingredient');
         }
         $manager->remove($ingredient);

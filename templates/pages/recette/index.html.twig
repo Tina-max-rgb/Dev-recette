@@ -1,0 +1,40 @@
+
+{% extends 'base.html.twig'%}
+{% block title %}TinRecype - Mes Recettes{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h3>Ajouter un ingrédient</h3>
+        {% for message in app.flashes ('success') %}
+            <div class='alert alert-success'>
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        
+
+            <table class="table table-active">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Date de création</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Modifier</th>
+                        <th scope="col">Supprimer</th>
+                        <th scope="col">Difficulty</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+
+            <div class="navigation d-flex justify-content-center">
+             
+            </div>
+        </div>
+    </div>
+  
+{% endblock %}

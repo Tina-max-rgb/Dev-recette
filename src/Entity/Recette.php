@@ -24,7 +24,7 @@ class Recette
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[Assert\LessThan(1444)]
+    #[Assert\LessThan(1440)]
     #[Assert\Positive()]
     #[ORM\Column(nullable: true)]
     private ?int $time = null;

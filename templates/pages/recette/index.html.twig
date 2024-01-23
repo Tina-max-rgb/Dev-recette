@@ -4,14 +4,30 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h3>Ajouter un ingrédient</h3>
+        <h3>Ajouter une recette</h3>
         {% for message in app.flashes ('success') %}
             <div class='alert alert-success'>
                 {{ message }}
             </div>
         {% endfor %}
 
-        
+        <div class="container mt-4">
+            <h1>Mes recettes</h1>
+                                     
+            <div class="count mt-4">
+                   Il y a dans la liste Recettes
+                {% if recettes is defined and recettes.getTotalItemCount is defined %}
+             
+                    {% if recettes.getTotalItemCount is same as ([]) %}
+                        0
+                    {% else %}
+                        {{ recettes.getTotalItemCount }}
+                    {% endif %}
+                  
+                {% else %}
+                    0 Il n'y a pas de recettes
+                {% endif %}
+            </div>
 
             <table class="table table-active">
                 <thead>
@@ -20,20 +36,38 @@
                         <th scope="col">Nom</th>
                         <th scope="col">Date de création</th>
                         <th scope="col">Prix</th>
+                        <th scope="col">Difficulty</th>
                         <th scope="col">Modifier</th>
                         <th scope="col">Supprimer</th>
-                        <th scope="col">Difficulty</th>
+                   
 
                     </tr>
                 </thead>
-                <tbody>
-                    
+              
+                      <tbody>
+                    {% for recette in recettes %}
+                        <tr class="table-active">
+                            <th scope="row">{{ recette.id }} </th>
+                            <td>{{recette.name }}</td>
+                            <td>{{ recette.createdAt|date('d-m-Y') }}</td>
+                            <td>{{ recette.prix }}</td>
+                             <td>{{ recette.difficulty }}</td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
+                
             </table>
-
+            
             <div class="navigation d-flex justify-content-center">
-             
+                {{ knp_pagination_render(recettes) }}
             </div>
+            
         </div>
     </div>
   

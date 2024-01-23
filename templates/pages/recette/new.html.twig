@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container mt-4">
+        <h3>Ajouter une recette</h3>
+                      {% for message in app.flashes ('success') %}
+     <div class='alert-success'>
+            {{message}}
+      </div>
+   {% endfor %}
+    {% for message in app.flashes ('danger') %}
+     <div class='alert-danger'>
+            {{message}}
+      </div>
+
+      {% endfor %}
+
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_row(form.name) }}
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.prix) }}
+            {{ form_errors(form.prix) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.submit) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block _recette_submit_errors %}
+    {# Ce bloc gère les erreurs de soumission du formulaire #}
+    {{ form_errors(form) }}
+{% endblock %}
+

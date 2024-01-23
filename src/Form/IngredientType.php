@@ -16,13 +16,7 @@ class IngredientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-       // $form
-        //->addcslashes('text', TextTyfa-pulse::class,
-          //  'attr' => [
-            //    'class' => 'form-control',
-              //  'minChar' => 5,
-                //'maxlChar' => 100, 
-            //],
+       
         $builder
         ->add('name', TextType::class, [
             'attr' => [

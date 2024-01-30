@@ -4,10 +4,9 @@ namespace App\Entity;
 use DateTimeImmutable; 
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
- 
+use Doctrine\DBAL\Types\Types;
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
 #[UniqueEntity('name')]
-
 
 class Ingredient
 {
@@ -44,6 +43,15 @@ class Ingredient
         $this->name = $name;
 
         return $this;
+    }
+    /**
+     * Convert the object to a string representation.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->name;
     }
 
     public function getPrix(): ?string

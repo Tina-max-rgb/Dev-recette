@@ -22,7 +22,6 @@ class IngredientController extends AbstractController
             $repository->findAll(),
             $request->query->getInt('page', 1)
         );
-
         $totalItemCount = ($pagination instanceof SlidingPaginationInterface) ? $pagination->getTotalItemCount() : 0;
 
         return $this->render('pages/ingredient/index.html.twig', [
@@ -79,7 +78,7 @@ class IngredientController extends AbstractController
         }
         #[Route('/ingredient/delete/{id}', name: 'ingredient.delete', methods: ['GET'])]
         public function delete(Request $request, EntityManagerInterface $manager, Ingredient $ingredient): Response
-    {
+     {
      
         if (!$ingredient) {
             $this->addFlash(

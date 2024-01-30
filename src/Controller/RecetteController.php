@@ -14,7 +14,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Recette;
 use App\Form\RecetteType;
 
-
 class RecetteController extends AbstractController
 {
     #[Route('/recette', name: 'app_recette', methods: ['GET'])]
@@ -22,7 +21,7 @@ class RecetteController extends AbstractController
     {
         $pagination = $paginator->paginate(
             $repository->findAll(),
-            $request->query->getInt('page', 1)
+            $request->query->getInt('page', 1) 
         );
 
         $totalItemCount = ($pagination instanceof SlidingPaginationInterface) ? $pagination->getTotalItemCount() : 0;
@@ -41,7 +40,6 @@ class RecetteController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredientExisting = $manager->getRepository(Recette::class)->findOneBy(['name' => $recette->getName()]);
-
             if ($recetteExisting) {
                 // Handle the case where the ingredient with the same name already exists
                 $this->addFlash('danger', 'Recette with this name already exists');
@@ -60,4 +58,22 @@ class RecetteController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/recette/edit/{id}', name: 'recette.edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, EntityManagerInterface $manager, Recette $recette): Response
+    {
+        $form = $this->createForm(RecetteType::class, $recette);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recette = $form->getData();
+            $manager->persist($recette);
+            $manager->flush();
+            $this->addFlash(
+                'success', 
+                'Votre recette a été modifié avec succès');
+                return $this->redirectToRoute('app_recette');
+        }
+            return $this->render('pages/recette/edit.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
 }

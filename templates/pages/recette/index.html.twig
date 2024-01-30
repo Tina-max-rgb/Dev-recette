@@ -7,15 +7,15 @@
         <h3>Ajouter une recette</h3>
         {% for message in app.flashes ('success') %}
             <div class='alert alert-success'>
-                {{ message }}
+             {{ message }}
             </div>
         {% endfor %}
 
         <div class="container mt-4">
             <h1>Mes recettes</h1>
-                                     
+         <a href="{{ path('recette.new')}}" class="btn btn-primary"> Créer une recette</a>
             <div class="count mt-4">
-                   Il y a dans la liste Recettes
+                   Il y a dans la liste Recettes 
                 {% if recettes is defined and recettes.getTotalItemCount is defined %}
              
                     {% if recettes.getTotalItemCount is same as ([]) %}
@@ -39,8 +39,6 @@
                         <th scope="col">Difficulty</th>
                         <th scope="col">Modifier</th>
                         <th scope="col">Supprimer</th>
-                   
-
                     </tr>
                 </thead>
               
@@ -49,16 +47,26 @@
                         <tr class="table-active">
                             <th scope="row">{{ recette.id }} </th>
                             <td>{{recette.name }}</td>
-                            <td>{{ recette.createdAt|date('d-m-Y') }}</td>
-                            <td>{{ recette.prix }}</td>
-                             <td>{{ recette.difficulty }}</td>
-                            <td>
-                                
+                            <td>{{recette.createdAt|date('d-m-Y') }}</td>
+                          <td>
+                            {% if recette.prix is null %}
+                            Non renseigné
+                            {% else %}
+                            {{recette.prix}} 
+                            {% endif %}
                             </td>
-                            <td>
-                                
+                             <td>
+                            {% if recette.difficulty is null %}
+                            Non renseigné
+                            {% else %}
+                            {{recette.difficulty}} 
+                            {% endif %}
                             </td>
                         </tr>
+                        <td>
+                         <a href="{{ path('recette.edit', { id: recette.id }) }}" class="btn btn-primary"
+                        onclick="confirmModification(event)">Modifier</a>
+                            </td>
                     {% endfor %}
                 </tbody>
                 

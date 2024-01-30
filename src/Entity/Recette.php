@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Entity;
-use App\Repository\RecetteRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use DateTimeImmutable; 
-use App\Repository\IngredientRepository;
+use App\Repository\RecetteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[UniqueEntity('name')]
 #[ORM\HasLifecycleCallbacks]
@@ -53,13 +54,17 @@ class Recette
 
     #[ORM\Column]
     #[Assert\NotNull]
+    #[Assert\DateTime]
     private ?\DateTimeImmutable $CreatedAt = null;
 
     #[ORM\Column]
     #[Assert\NotNull]
+    #[Assert\DateTime]
     private ?\DateTimeImmutable $UpdatedAt = null;
 
+
     #[ORM\ManyToMany(targetEntity: Ingredient::class)]
+    
     private Collection $IngredientsL;
 
     public function __construct()
@@ -175,8 +180,7 @@ class Recette
 
         return $this;
     }
-
-    
+ 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->UpdatedAt;

@@ -46,7 +46,7 @@
                             <td>{{ ingredient.createdAt|date('d-m-Y') }}</td>
                             <td>{{ ingredient.prix }}</td>
                             <td>
-                                <a href="{{ path('ingredient.edit', { id: ingredient.id }) }}" class="btn btn-info"
+                                <a href="{{ path('ingredient.edit', { id: ingredient.id }) }}" class="btn btn-primary"
                                     onclick="confirmModification(event)">Modifier</a>
                             </td>
                             <td>

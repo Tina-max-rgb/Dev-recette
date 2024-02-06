@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Controller;
 use App\Repository\RecetteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,6 +56,7 @@ class RecetteController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
     #[Route('/recette/edit/{id}', name: 'recette.edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EntityManagerInterface $manager, Recette $recette): Response
     {
@@ -76,4 +75,26 @@ class RecetteController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
+
+
+        #[Route('/recette/delete/{id}', name: 'recette.delete', methods: ['GET'])]
+        public function delete(Request $request, EntityManagerInterface $manager, Recette $recette): Response
+     {
+     
+        if (!$recette) {
+            $this->addFlash(
+                'success',
+                'Votre recette n/a pas été trouvé',
+            );   
+            return $this->redirectToRoute('app_recette');
+        }
+        $manager->remove($recette);
+            $manager->flush();
+        $this->addFlash(
+            'success',
+            'Votre recette  a été supprimé avec succés',
+        );
+        return $this->redirectToRoute('app_recette');
+
+    }
 }

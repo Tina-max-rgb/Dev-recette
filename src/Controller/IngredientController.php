@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 use App\Repository\IngredientRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,7 +37,6 @@ class IngredientController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredientExisting = $manager->getRepository(Ingredient::class)->findOneBy(['name' => $ingredient->getName()]);
-
             if ($ingredientExisting) {
                 // Handle the case where the ingredient with the same name already exists
                 $this->addFlash('danger', 'Ingredient with this name already exists');
@@ -54,7 +52,7 @@ class IngredientController extends AbstractController
         }
 
         return $this->render('pages/ingredient/new.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView(),     
         ]);
     }
     #[Route('/ingredient/edit/{id}', name: 'ingredient.edit', methods: ['GET', 'POST'])]
@@ -69,7 +67,6 @@ class IngredientController extends AbstractController
             $this->addFlash(
                 'success', 
                 'Votre ingrédient a été modifié avec succès');
-
             return $this->redirectToRoute('app_ingredient');
         }
             return $this->render('pages/ingredient/edit.html.twig', [

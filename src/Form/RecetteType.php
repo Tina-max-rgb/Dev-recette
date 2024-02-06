@@ -2,65 +2,61 @@
 
 namespace App\Form;
 use App\Entity\Recette;
+use App\Entity\Ingredient; // Assurez-vous d'inclure la classe Ingredient
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class RecetteType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options): void
     {
         $builder
-
-        ->add('name', TextType::class, [
-            'attr' => [
-                'class' => 'form-control',
-                'minlength' => 2,
-                'maxlength' => 50,
-            ],
-            'label' => 'name',
-            'label_attr' => [
-                'class' => 'form-label mt-4',
-            ],
-
-            'constraints' => [
-                new Assert\Length(['min' => 2, 'max' => 50]),
-                new Assert\NotBlank(),
-            ],
-        ])
-        ->add('prix', MoneyType::class, [
-            'attr' => [
-                'class' => 'form-control',                
-            ],
-            'label' => 'prix', // Correction de l'intitulé du champ
-            'label_attr' => [
-                'class' => 'form-label mt-4',
-            ],
-            'constraints' => [
-                new Assert\Positive(),
-                new Assert\LessThan(1001),
-            ],
-        ])
-            
+            ->add('name', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => 2,
+                    'maxlength' => 50,
+                ],
+                'label' => 'Nom',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+                'constraints' => [
+                    new Assert\Length(['min' => 2, 'max' => 50]),
+                    new Assert\NotBlank(),
+                ],
+            ])
+            ->add('prix', MoneyType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Prix',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+                'constraints' => [
+                    new Assert\Positive(),
+                    new Assert\LessThan(1001),
+                ],
+            ])
             ->add('time', IntegerType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => 1,
                     'maxlength' => 1440,
-                    
                 ],
-                'label' => 'time', // Correction de l'intitulé du champ
+                'label' => 'Temps',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
@@ -69,32 +65,28 @@ class RecetteType extends AbstractType
                     new Assert\LessThan(1440),
                 ],
             ])
-                ->add('Nbpersonne', IntegerType::class, [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'minlength' => 1,
-                    'maxlength' => 50,
-                        
-                    ],
-                    'label' => 'Nbpersonne', // Correction de l'intitulé du champ
-                    'label_attr' => [
-                        'class' => 'form-label mt-4',
-                    ],
-                    'constraints' => [
-                        new Assert\Positive(),
-                        new Assert\LessThan(51),
-                    ],
-            
-           ])
-
-            ->add('difficulty', RangeType::class, [
+            ->add('Nbpersonne', IntegerType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => 1,
-                    'maxlength' => 5,
-                    
+                    'maxlength' => 50,
                 ],
-                'label' => 'difficulty', // Correction de l'intitulé du champ
+                'label' => 'Nombre de personnes',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+                'constraints' => [
+                    new Assert\Positive(),
+                    new Assert\LessThan(51),
+                ],
+            ])
+            ->add('difficulty', RangeType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'min' => 1,
+                    'max' => 5,
+                ],
+                'label' => 'Difficulté',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
@@ -103,27 +95,23 @@ class RecetteType extends AbstractType
                     new Assert\LessThan(6),
                 ],
             ])
-        
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    
                 ],
-                'label' => 'description', // Correction de l'intitulé du champ
+                'label' => 'Description',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
-                    
                 ],
             ])
-         
-            ->add('IsFavorite',CheckboxType::class, [
+            ->add('IsFavorite', CheckboxType::class, [
                 'attr' => [
-                    'class' => 'form-control',    
+                    'class' => 'form-control',
                 ],
-                'label' => 'Favorite ?', // Correction de l'intitulé du champ
+                'label' => 'Favori ?',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
@@ -131,29 +119,17 @@ class RecetteType extends AbstractType
                     new Assert\NotNull(),
                 ],
             ])
-                
-         
-            ->add('IngredientsL',  CollectionType::class, [
-                'attr' => [
-                    'class' => 'form-control',    
+            ->add('ingredientsL', CollectionType::class, [
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'class' => Ingredient::class,
+                    'choice_label' => 'name',
                 ],
-                'label' => 'IngredientsL', // Correction de l'intitulé du champ
-                'label_attr' => [
-                    'class' => 'form-label mt-4',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
             ])
-           
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary form-label mt-4',
-                    'minlength' => 2,
-                'maxlength' => 50,
-            ],
-        ]);
-                       
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -162,5 +138,4 @@ class RecetteType extends AbstractType
             'data_class' => Recette::class,
         ]);
     }
-
 }

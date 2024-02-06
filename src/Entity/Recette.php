@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 use DateTimeImmutable; 
 use App\Repository\RecetteRepository;
@@ -8,8 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
-
+ 
 #[UniqueEntity('name')]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
@@ -66,7 +64,6 @@ class Recette
     #[ORM\ManyToMany(targetEntity: Ingredient::class)]
     
     private Collection $IngredientsL;
-
     public function __construct()
     {
         $this->IngredientsL = new ArrayCollection();
@@ -84,6 +81,7 @@ class Recette
     {
         return $this->id;
     }
+    
 
     public function getName(): ?string
     {

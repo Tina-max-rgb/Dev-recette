@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 use DateTimeImmutable; 
 use App\Repository\IngredientRepository;

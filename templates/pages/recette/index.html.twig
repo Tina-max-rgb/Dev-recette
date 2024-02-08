@@ -1,29 +1,27 @@
+{% extends 'base.html.twig' %}
 
-{% extends 'base.html.twig'%}
 {% block title %}TinRecype - Mes Recettes{% endblock %}
 
 {% block body %}
     <div class="container mt-4">
         <h3>Ajouter une recette</h3>
-        {% for message in app.flashes ('success') %}
-            <div class='alert alert-success'>
-             {{ message }}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
             </div>
         {% endfor %}
 
         <div class="container mt-4">
             <h1>Mes recettes</h1>
-         <a href="{{ path('recette.new')}}" class="btn btn-primary"> Créer une recette</a>
+            <a href="{{ path('recette.new') }}" class="btn btn-primary">Créer une recette</a>
             <div class="count mt-4">
-                   Il y a dans la liste Recettes 
+                Il y a dans la liste Recettes
                 {% if recettes is defined and recettes.getTotalItemCount is defined %}
-             
-                    {% if recettes.getTotalItemCount is same as ([]) %}
+                    {% if recettes.getTotalItemCount() == 0 %}
                         0
                     {% else %}
-                        {{ recettes.getTotalItemCount }}
+                        {{ recettes.getTotalItemCount() }}
                     {% endif %}
-                  
                 {% else %}
                     0 Il n'y a pas de recettes
                 {% endif %}
@@ -37,52 +35,51 @@
                         <th scope="col">Date de création</th>
                         <th scope="col">Prix</th>
                         <th scope="col">Difficulty</th>
-                    
+                        <th scope="col">Ingredients</th> {# Modifié "IngredientsL" à "Ingredients" #}
+                        <th scope="col">Actions</th> {# Ajouté une colonne pour les actions #}
                     </tr>
                 </thead>
-              
-                      <tbody>
+                <tbody>
                     {% for recette in recettes %}
-                    
                         <tr class="table-active">
                             <th scope="row">{{ recette.id }} </th>
-                            <td>{{recette.name}}</td>
-                            <td>{{recette.createdAt|date('d-m-Y') }}</td>
-                          <td>
-                            {% if recette.prix is null %}
-                            Non renseigné
-                            {% else %}
-                            {{recette.prix}} 
-                            {% endif %}
+                            <td>{{ recette.name }}</td>
+                            <td>{{ recette.createdAt|date('d-m-Y') }}</td>
+                            <td>
+                                {% if recette.prix is null %}
+                                    Non renseigné
+                                {% else %}
+                                    {{ recette.prix }} 
+                                {% endif %}
                             </td>
-                             <td>
-                            {% if recette.difficulty is null %}
-                            Non renseigné
-                            {% else %}
-                            {{recette.difficulty}} 
-                            {% endif %}
+                            <td>
+                                {% if recette.difficulty is null %}
+                                    Non renseigné
+                                {% else %}
+                                    {{ recette.difficulty }} 
+                                {% endif %}
+                            </td>
+                           <td>
+                         {% if recette.ingredientsL is null %}
+                          Non renseigné
+                         {% else %}
+                         {% for ingredient in recette.ingredientsL %}
+                            {{ ingredient.name }} {# Assurez-vous de remplacer "nom" par le nom de la propriété de l'ingrédient que vous souhaitez afficher #}
+      
+                         {% endfor %}
+                 {% endif %}
+                        </td>
+                            <td class="table mt-4">
+                                <a href="{{ path('recette.edit', { id: recette.id }) }}" class="btn btn-primary ">Modifier</a>
+                                <a href="{{ path('recette.delete', { id: recette.id }) }}" class="btn btn-danger " onclick="confirmModification(event)">Supprimer</a>
                             </td>
                         </tr>
-                        
-                        <td>
-                         <a href="{{ path('recette.edit', { id: recette.id }) }}" class="btn btn-primary"
-                        onclick="confirmModification(event)">Modifier</a>
-                            </td>
-
-                        <td>
-                         <a href="{{ path('recette.delete', { id: recette.id }) }}" class="btn btn-danger"
-                        onclick="confirmModification(event)">Supprimer</a>
-                            </td>
-
                     {% endfor %}
                 </tbody>
-                
             </table>
             <div class="navigation d-flex justify-content-center">
                 {{ knp_pagination_render(recettes) }}
             </div>
-            
         </div>
     </div>
-  
 {% endblock %}

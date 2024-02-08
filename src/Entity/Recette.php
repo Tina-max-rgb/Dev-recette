@@ -198,6 +198,10 @@ class Recette
     {
         return $this->IngredientsL;
     }
+    public function __toString(): string
+    {
+        return $this->addIngredientsL;
+    }
 
     public function addIngredientsL(Ingredient $ingredientsL): static
     {
